@@ -11,6 +11,7 @@ package com.mycompany.todolist;
 public class ToDoList {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        //System.out.println("Hello World!");
+        new teste().setVisible(true);
     }
 }

@@ -4,10 +4,19 @@
  */
 package com.mycompany.todolist.controller;
 
+import com.mycompany.todolist.model.Usuario;
+import java.util.ArrayList;
+
 /**
  *
  * @author Aluno
  */
 public class ControllerUsuario {
     
+    private ArrayList<Usuario> listaDeUsuarios = new ArrayList<>();
+    
+    
+    public void addUsuario(Usuario usuario){
+        this.listaDeUsuarios.add(usuario);
+    }
 }
