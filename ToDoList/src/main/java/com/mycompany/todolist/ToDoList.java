@@ -6,7 +6,7 @@ package com.mycompany.todolist;
 
 /**
  *
- * @author Aluno
+ * @author Luiz Francisco Kukul Marinho
  */
 public class ToDoList {
 
