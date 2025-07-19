@@ -29,7 +29,7 @@ public class ControllerTarefa {
             t.getTitulo(),
             t.getDescricao(),
             t.getData(),
-            t.isIsConcluida()
+            t.getIsConcluida()
         };
         modelo.addRow(linha);
     }
@@ -48,7 +48,7 @@ public class ControllerTarefa {
         }
     }
     
-    public ArrayList<Tarefa> getTarefa(){
+    public ArrayList<Tarefa> getListaDeTarefa(){
         return listaDeTarefas;
     }    
     

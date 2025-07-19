@@ -6,24 +6,38 @@ package com.mycompany.todolist.view;
 
 import com.mycompany.todolist.controller.ControllerUsuario;
 import com.mycompany.todolist.model.Usuario;
+import com.mycompany.todolist.util.InicializarComponentes;
+import com.mycompany.todolist.util.ValidaCampos;
+import java.awt.Color;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author User
  */
 public class CadastroUsuario extends javax.swing.JFrame {
-    private ArrayList<Usuario> listaDeUsuarios = new ArrayList<>();
-    private ControllerUsuario userController = new ControllerUsuario();
+
+    private ArrayList<Usuario> listaDeUsuario = new ArrayList<>();
+    private final InicializarComponentes ic = new InicializarComponentes();
+    
+    private final String NOME_USUARIO = "Digite seu nome";
+    private final String EMAIL_USUARIO = "Digite seu email";
+    private final String SENHA_USUARIO = "Digite sua senha";
+    private final String CONFIRMAR_SENHA = "Confirme sua senha";
+    private ValidaCampos validaCampos = new ValidaCampos();
     
     public CadastroUsuario() {
         initComponents();
         setLocationRelativeTo(this);
+        configuraCampos();
     }
     
-    public CadastroUsuario(ArrayList<Usuario> listaDeUsuarios){
+    public CadastroUsuario(ArrayList<Usuario> listaDeUsuario){
         initComponents();
-        this.listaDeUsuarios = listaDeUsuarios;
+        this.listaDeUsuario = listaDeUsuario;
+        setLocationRelativeTo(this);
+        configuraCampos();
         
     }
     
@@ -47,6 +61,7 @@ public class CadastroUsuario extends javax.swing.JFrame {
         lblError = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnCadastrar = new javax.swing.JButton();
+        lblErrorSenhas = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,8 +81,13 @@ public class CadastroUsuario extends javax.swing.JFrame {
 
         cbxMostrarSenhas.setBackground(new java.awt.Color(249, 250, 248));
         cbxMostrarSenhas.setText("Mostrar senhas");
+        cbxMostrarSenhas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxMostrarSenhasActionPerformed(evt);
+            }
+        });
 
-        lblError.setText("ERRO");
+        lblError.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setText("Cadastro");
@@ -81,53 +101,56 @@ public class CadastroUsuario extends javax.swing.JFrame {
             }
         });
 
+        lblErrorSenhas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cbxMostrarSenhas)
-                .addGap(112, 112, 112))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(47, 47, 47)
+                .addGap(175, 175, 175)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(psfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNomeCompleto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(btnCadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(psfConfirmaSenha, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(lblError)
-                            .addGap(120, 120, 120))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel2)
-                            .addGap(88, 88, 88)))
+                            .addGap(88, 88, 88))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtNomeCompleto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCadastrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(psfConfirmaSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(psfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblErrorSenhas)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cbxMostrarSenhas)))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(12, 12, 12)
+                            .addComponent(lblError)))
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(190, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(15, 15, 15)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtNomeCompleto, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(12, 12, 12)
                 .addComponent(psfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(psfConfirmaSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbxMostrarSenhas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbxMostrarSenhas)
+                    .addComponent(lblErrorSenhas))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(lblError)
-                .addGap(20, 20, 20))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -145,11 +168,26 @@ public class CadastroUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        Usuario u = retornaUsuario();
-        
-        userController.addUsuario(u);
-        System.out.println(u.toString());
+        if(validaCampos()){
+        Usuario user  = retornaUsuario();
+        listaDeUsuario.add(user);
+        new Login(listaDeUsuario).setVisible(true);
+        this.dispose();
+
+        }else{
+            lblError.setForeground(Color.red);
+            lblError.setText("Confira o preenchimento dos campos!");
+        }
+
     }//GEN-LAST:event_btnCadastrarActionPerformed
+
+    private void cbxMostrarSenhasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxMostrarSenhasActionPerformed
+        String senha =  String.valueOf(psfSenha.getPassword());
+        String confirmarSenha = String.valueOf(psfConfirmaSenha.getPassword());
+        ic.configCheckBox(cbxMostrarSenhas, psfSenha, SENHA_USUARIO, senha );
+        ic.configCheckBox(cbxMostrarSenhas, psfConfirmaSenha, CONFIRMAR_SENHA, confirmarSenha  );
+        
+    }//GEN-LAST:event_cbxMostrarSenhasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -192,6 +230,7 @@ public class CadastroUsuario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblError;
+    private javax.swing.JLabel lblErrorSenhas;
     private javax.swing.JPasswordField psfConfirmaSenha;
     private javax.swing.JPasswordField psfSenha;
     private javax.swing.JTextField txtEmail;
@@ -204,7 +243,6 @@ public class CadastroUsuario extends javax.swing.JFrame {
         String nome = txtNomeCompleto.getText();
         String email = txtEmail.getText();
         String senha = String.valueOf(psfSenha.getText());
-        String confirmaSenha = String.valueOf(psfConfirmaSenha.getText());
         
         u.setNomeCompleto(nome);
         u.setEmail(email);
@@ -212,5 +250,33 @@ public class CadastroUsuario extends javax.swing.JFrame {
         
         return u;
     }
-
+    
+   private void configuraCampos(){
+        ic.configuraTextField(txtNomeCompleto, NOME_USUARIO);
+        ic.configuraTextField(txtEmail, EMAIL_USUARIO);
+        ic.configCampoSenha(psfSenha, SENHA_USUARIO);
+        ic.configCampoSenha(psfConfirmaSenha, CONFIRMAR_SENHA);
+    }
+   
+   private boolean validaCampos(){
+       boolean resultado = true;
+       
+       if(validaCampos.validaPasswordField(psfSenha, SENHA_USUARIO)) resultado = false;
+       if(validaCampos.validaTextField(txtEmail, EMAIL_USUARIO)) resultado = false;
+       if(validaCampos.validaTextField(txtNomeCompleto, NOME_USUARIO)) resultado = false;
+       if(validaCampos.validaPasswordField(psfConfirmaSenha, CONFIRMAR_SENHA)) resultado = false;
+       
+       String senha = String.valueOf(psfSenha.getPassword());
+       String confirmarSenha = String.valueOf(psfConfirmaSenha.getPassword());
+       
+       if(!senha.equals(confirmarSenha)) {
+            lblErrorSenhas.setForeground(Color.red);
+            lblErrorSenhas.setText("Senhas não coicidem!");
+            resultado = false;
+        }
+       
+       return resultado;
+   }
 }
+
+

@@ -4,18 +4,36 @@
  */
 package com.mycompany.todolist.view;
 
+import com.mycompany.todolist.controller.ControllerUsuario;
+import com.mycompany.todolist.model.Usuario;
+import com.mycompany.todolist.util.InicializarComponentes;
+import com.mycompany.todolist.util.ValidaCampos;
+import java.awt.Color;
+import java.util.ArrayList;
+
 /**
  *
  * @author User
  */
 public class Login extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Login
-     */
+    private ArrayList<Usuario> listaDeUsuario = new ArrayList<>();
+    private final String EMAIL_USUARIO = "Digite seu email";
+    private final String SENHA_USUARIO = "Digite sua senha";
+    private final InicializarComponentes ic = new InicializarComponentes();
+    private ValidaCampos validaCampos = new ValidaCampos();
+    
     public Login() {
         initComponents();
         setLocationRelativeTo(this);
+        configuraCampos();
+    }
+    
+    public Login(ArrayList<Usuario> listaDeUsuario){
+        initComponents();
+        this.listaDeUsuario = listaDeUsuario;
+        setLocationRelativeTo(this);
+        configuraCampos();
     }
 
     /**
@@ -34,6 +52,8 @@ public class Login extends javax.swing.JFrame {
         cbxMostrarSenha = new javax.swing.JCheckBox();
         lblCriarCadastro = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        lblErro = new javax.swing.JLabel();
+        lblError2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -61,6 +81,11 @@ public class Login extends javax.swing.JFrame {
 
         cbxMostrarSenha.setBackground(new java.awt.Color(249, 250, 248));
         cbxMostrarSenha.setText("Mostrar senha");
+        cbxMostrarSenha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxMostrarSenhaActionPerformed(evt);
+            }
+        });
 
         lblCriarCadastro.setForeground(new java.awt.Color(0, 51, 255));
         lblCriarCadastro.setText("Criar cadastro");
@@ -73,52 +98,59 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setText("Login");
 
+        lblErro.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(107, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(142, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(psfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbxMostrarSenha))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnLogar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblCriarCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(73, 73, 73))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(psfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblErro)
+                        .addComponent(cbxMostrarSenha)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(btnLogar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(lblCriarCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblError2))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(193, 193, 193))))
+                        .addGap(119, 119, 119)))
+                .addGap(125, 125, 125))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addGap(15, 15, 15)
                 .addComponent(jLabel2)
-                .addGap(31, 31, 31)
+                .addGap(25, 25, 25)
+                .addComponent(lblError2)
+                .addGap(18, 18, 18)
                 .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(psfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbxMostrarSenha))
+                .addComponent(psfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cbxMostrarSenha)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLogar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblCriarCadastro))
-                .addContainerGap(99, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
+                .addComponent(lblErro)
+                .addGap(77, 77, 77))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -133,13 +165,40 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_txtEmailActionPerformed
 
     private void btnLogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogarActionPerformed
-        
+       if(validaCampos()){
+       for (int i = 0; i < listaDeUsuario.size(); i++ ){
+            String email = listaDeUsuario.get(i).getEmail();
+            String senha = listaDeUsuario.get(i).getSenha();
+            
+            String senhaDigitada = String.valueOf(psfSenha.getText());
+            String emailDigitado = txtEmail.getText();
+            
+            if(senha.equals(senhaDigitada) && email.equals(emailDigitado)){
+               Usuario userLogado = listaDeUsuario.get(i);
+               new Principal(userLogado).setVisible(true);
+               this.dispose();
+            } else{
+                lblErro.setForeground(Color.red);
+                lblErro.setText("Senha ou email incorretos");
+            } 
+        }
+       }else{
+           lblError2.setForeground(Color.red);
+           lblError2.setText("Preencha os campos corretamente!");
+       }
+       
+       
     }//GEN-LAST:event_btnLogarActionPerformed
 
     private void lblCriarCadastroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCriarCadastroMouseClicked
-        new CadastroUsuario().setVisible(true);
+        new CadastroUsuario(listaDeUsuario).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_lblCriarCadastroMouseClicked
+
+    private void cbxMostrarSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxMostrarSenhaActionPerformed
+       String senha =  String.valueOf(psfSenha.getPassword());
+       ic.configCheckBox(cbxMostrarSenha, psfSenha, "Senha", senha );
+    }//GEN-LAST:event_cbxMostrarSenhaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -182,7 +241,27 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblCriarCadastro;
+    private javax.swing.JLabel lblErro;
+    private javax.swing.JLabel lblError2;
     private javax.swing.JPasswordField psfSenha;
     private javax.swing.JTextField txtEmail;
     // End of variables declaration//GEN-END:variables
+
+    private void configuraCampos(){
+        
+        ic.configuraTextField(txtEmail, EMAIL_USUARIO);
+        ic.configCampoSenha(psfSenha, SENHA_USUARIO);
+
+    }
+    
+    private boolean validaCampos(){
+       boolean resultado = true;
+       
+       if(validaCampos.validaPasswordField(psfSenha, SENHA_USUARIO)) resultado = false;
+       if(validaCampos.validaTextField(txtEmail, EMAIL_USUARIO)) resultado = false;
+       
+
+       return resultado;
+   }
+
 }
