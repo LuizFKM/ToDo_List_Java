@@ -4,6 +4,7 @@
  */
 package com.mycompany.todolist.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -13,10 +14,15 @@ import java.util.Date;
 public class Tarefa {
     private String titulo;
     private String descricao;
-    private boolean isConcluida;
-    private Date data;
+    private String isConcluida;
+    private LocalDate data;
 
-    public Tarefa(String titulo, String descricao, boolean isConcluida, Date data) {
+    public Tarefa() {
+    }
+    
+    
+
+    public Tarefa(String titulo, String descricao, String isConcluida, LocalDate data) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.isConcluida = isConcluida;
@@ -39,19 +45,19 @@ public class Tarefa {
         this.descricao = descricao;
     }
 
-    public boolean isIsConcluida() {
+    public String getIsConcluida() {
         return isConcluida;
     }
 
-    public void setIsConcluida(boolean isConcluida) {
+    public void setIsConcluida(String isConcluida) {
         this.isConcluida = isConcluida;
     }
 
-    public Date getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 

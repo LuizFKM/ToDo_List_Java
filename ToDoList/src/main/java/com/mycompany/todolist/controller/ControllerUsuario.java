@@ -19,4 +19,10 @@ public class ControllerUsuario {
     public void addUsuario(Usuario usuario){
         this.listaDeUsuarios.add(usuario);
     }
+    
+    public ArrayList<Usuario> getListaDeUsuarios(){
+       return this.listaDeUsuarios;
+    }    
+    
+       
 }
